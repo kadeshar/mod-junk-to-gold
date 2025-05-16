@@ -1,5 +1,8 @@
 #include "Chat.h"
+#include "Config.h"
 #include "Player.h"
+#include "PlayerbotAI.h"
+#include "PlayerbotMgr.h"
 #include "ScriptMgr.h"
 
 class JunkToGold : public PlayerScript
@@ -9,6 +12,29 @@ public:
 
     void OnPlayerLootItem(Player* player, Item* item, uint32 count, ObjectGuid /*lootguid*/) override
     {
+        if (!sConfigMgr->GetOption<bool>("ModJunkToGold.Enable", true))
+        {
+            return;
+        }
+
+        bool enableForRealPlayer = sConfigMgr->GetOption<bool>("ModJunkToGold.EnableForRealPlayer", true);
+        bool enableForPlayerbot = sConfigMgr->GetOption<bool>("ModJunkToGold.EnableForPlayerbot", true);
+        if (!enableForRealPlayer || !enableForPlayerbot)
+        {
+            PlayerbotAI* senderAI = sPlayerbotsMgr->GetPlayerbotAI(player);
+            bool senderIsBot = (senderAI && senderAI->IsBotAI());
+
+            if (!enableForRealPlayer && !senderIsBot)
+            {
+                return;
+            }
+
+            if (!enableForPlayerbot && senderIsBot)
+            {
+                return;
+            }
+        }
+
         if (!item || !item->GetTemplate())
         {
             return;
