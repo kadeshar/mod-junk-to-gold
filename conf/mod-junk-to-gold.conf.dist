@@ -25,4 +25,4 @@
 
 ModJunkToGold.Enable = 1
 ModJunkToGold.EnableForRealPlayer = 1
-ModJunkToGold.EnableForPlayebot = 1
+ModJunkToGold.EnableForPlayerbot = 1
