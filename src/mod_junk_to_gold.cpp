@@ -21,7 +21,7 @@ public:
         bool enableForPlayerbot = sConfigMgr->GetOption<bool>("ModJunkToGold.EnableForPlayerbot", true);
         if (!enableForRealPlayer || !enableForPlayerbot)
         {
-            PlayerbotAI* senderAI = sPlayerbotsMgr->GetPlayerbotAI(player);
+            PlayerbotAI* senderAI = PlayerbotsMgr::instance().GetPlayerbotAI(player);
             bool senderIsBot = (senderAI && senderAI->IsBotAI());
 
             if (!enableForRealPlayer && !senderIsBot)
